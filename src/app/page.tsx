@@ -1,5 +1,11 @@
 "use client";
 
 export default function Page() {
-  return <h1>안녕하슈</h1>;
+  return (
+    <>
+      <div className="flex-1 flex items-center justify-center">
+        <span>명언앱 입니다.</span>
+      </div>
+    </>
+  );
 }
