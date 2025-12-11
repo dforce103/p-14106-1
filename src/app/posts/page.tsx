@@ -1,13 +1,16 @@
 "use client";
 
+import { PostDto } from "@/type/post";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { apiFetch } from "@/lib/backend/client";
+
 export default function Page() {
-  const [posts, setPosts] = useState<{ [key: string]: any }[]>([]);
+  const [posts, setPosts] = useState<PostDto[]>([]);
+  const NEXT_PUBLIC_API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/v1/posts")
-      .then((res) => res.json())
+    apiFetch("/api/v1/posts")
       .then(setPosts);
   }, []);
 
@@ -24,7 +27,11 @@ export default function Page() {
           </li>
         ))}
       </ul>
+
+      <div>
+        <Link href="/posts/write">글쓰기</Link>
+      </div>
     </>
-  );
+  );    
 }
 
