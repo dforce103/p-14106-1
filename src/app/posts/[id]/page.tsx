@@ -84,7 +84,11 @@ function usePostComments(id: number) {
   };
 }
 
-function PostInfo({ postState }: { postState: ReturnType<typeof usePost> }) {
+function PostInfo({
+  postState,
+}: {
+  postState: ReturnType<typeof usePost>;
+}) {
   const router = useRouter();
   const { post, deletePost: _deletePost } = postState;
 
@@ -105,7 +109,10 @@ function PostInfo({ postState }: { postState: ReturnType<typeof usePost> }) {
       <div style={{ whiteSpace: "pre-line" }}>{post.content}</div>
 
       <div className="flex gap-2">
-        <button className="p-2 rounded border" onClick={deletePost}>
+        <button
+          className="p-2 rounded border"
+          onClick={deletePost}
+        >
           삭제
         </button>
         <Link className="p-2 rounded border" href={`/posts/${post.id}/edit`}>
@@ -116,28 +123,14 @@ function PostInfo({ postState }: { postState: ReturnType<typeof usePost> }) {
   );
 }
 
-function PostCommentWriteAndList({
+function PostCommentWrite({
   id,
   postCommentsState,
 }: {
   id: number;
   postCommentsState: ReturnType<typeof usePostComments>;
 }) {
-  const {
-    postComments,
-    deleteComment: _deleteComment,
-    writeComment,
-  } = postCommentsState;
-
-  if (postComments == null) return <div>로딩중...</div>;
-
-  const deleteComment = (commentId: number) => {
-    if (!confirm(`${commentId}번 댓글을 정말로 삭제하시겠습니까?`)) return;
-
-    _deleteComment(id, commentId, (data) => {
-      alert(data.msg);
-    });
-  };
+  const { writeComment } = postCommentsState;
 
   const handleCommentWriteFormSubmit = (
     e: React.FormEvent<HTMLFormElement>
@@ -186,6 +179,30 @@ function PostCommentWriteAndList({
           작성
         </button>
       </form>
+    </>
+  );
+}
+
+function PostCommentWriteAndList({
+  id,
+  postCommentsState,
+}: {
+  id: number;
+  postCommentsState: ReturnType<typeof usePostComments>;
+}) {
+  const { postComments, deleteComment: _deleteComment } = postCommentsState;
+
+  const deleteComment = (commentId: number) => {
+    if (!confirm(`${id}번 댓글을 정말로 삭제하시겠습니까?`)) return;
+
+    _deleteComment(id, commentId, (data) => {
+      alert(data.msg);
+    })
+  };
+
+  return (
+    <>
+      <PostCommentWrite id={id} postCommentsState={postCommentsState} />
 
       <h2>댓글 목록</h2>
 
