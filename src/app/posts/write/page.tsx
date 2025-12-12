@@ -50,9 +50,13 @@ export default function Page() {
         title: titleInput.value,
         content: contentTextarea.value,
       }),
-    }).then((data) => {
+    })
+    .then((data) => {
       alert(data.msg);
       router.replace(`/posts/${data.data.id}`);
+    })
+    .catch((error) => {
+      alert(`${error.resultCode} : ${error.msg}`);
     });
   };
 
